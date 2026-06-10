@@ -15,8 +15,18 @@ depends_on = None
 
 
 def upgrade() -> None:
-    post_status = postgresql.ENUM("draft", "published", "archived", name="poststatus")
-    post_status.create(op.get_bind(), checkfirst=True)
+    post_status = postgresql.ENUM("draft", "published", "archived", name="poststatus", create_type=False)
+    op.execute(
+        """
+        DO $$
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'poststatus') THEN
+                CREATE TYPE poststatus AS ENUM ('draft', 'published', 'archived');
+            END IF;
+        END
+        $$;
+        """
+    )
 
     op.create_table(
         "users",

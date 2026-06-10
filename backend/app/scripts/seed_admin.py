@@ -3,12 +3,11 @@ import os
 from sqlalchemy import select
 
 from app.core.security import hash_password
-from app.db.session import Base, SessionLocal, engine
+from app.db.session import SessionLocal
 from app.models import Category, User
 
 
 def main() -> None:
-    Base.metadata.create_all(bind=engine)
     email = os.environ.get("ADMIN_EMAIL", "admin@example.com").lower().strip()
     password = os.environ.get("ADMIN_PASSWORD", "change-me")
 
