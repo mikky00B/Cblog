@@ -15,6 +15,10 @@ coverage/
 !.env.example
 !.envexample
 
+# Local documentation
+README.md
+DEPLOYMENT.md
+
 # Python caches and test artifacts
 __pycache__/
 *.py[cod]
